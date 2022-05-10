@@ -11,9 +11,7 @@ service User {
 
 message UserMessage {
     string user_id = 1;
-    string name = 2;
-    string phone_number = 3;
-    int32 age = 4;
+    string nickname = 2;
 }
 
 message GetUserRequest {
