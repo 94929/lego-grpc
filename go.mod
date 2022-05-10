@@ -3,7 +3,6 @@ module github.com/jha929/lego-grpc
 go 1.18
 
 require (
-	github.com/jinzhu/gorm v1.9.16
 	github.com/joho/godotenv v1.4.0
 	google.golang.org/grpc v1.46.0
 	google.golang.org/protobuf v1.28.0
