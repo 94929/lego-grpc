@@ -13,6 +13,20 @@ type UserGrpcServer struct {
 	UserRepository repository.UserRepository
 }
 
+func (ugs UserGrpcServer) CreateUser(
+	ctx context.Context, req *userpb.CreateUserRequest,
+) (*userpb.GetUserResponse, error) {
+	var userMessage *userpb.UserMessage
+	user := repository.User{Nickname: req.Nickname}
+	ugs.UserRepository.CreateUser(&user)
+	userIdStr := strconv.FormatUint(uint64(user.ID), 10)
+	userMessage = &userpb.UserMessage{
+		UserId:   userIdStr,
+		Nickname: user.Nickname,
+	}
+	return &userpb.GetUserResponse{UserMessage: userMessage}, nil
+}
+
 func (ugs UserGrpcServer) GetUser(
 	ctx context.Context, req *userpb.GetUserRequest,
 ) (*userpb.GetUserResponse, error) {

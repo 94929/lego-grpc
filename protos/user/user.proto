@@ -5,6 +5,7 @@ package user;
 option go_package = "github.com/jha929/lego-grpc/protos/user";
 
 service User {
+    rpc CreateUser(CreateUserRequest) returns (GetUserResponse);
     rpc GetUser(GetUserRequest) returns (GetUserResponse);
     rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
 }
@@ -12,6 +13,10 @@ service User {
 message UserMessage {
     string user_id = 1;
     string nickname = 2;
+}
+
+message CreateUserRequest {
+    string nickname = 1;
 }
 
 message GetUserRequest {

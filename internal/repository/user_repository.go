@@ -12,7 +12,7 @@ type userRepository struct {
 }
 
 type UserRepository interface {
-	CreateUser(user *User) (*User, error)
+	CreateUser(user *User) error
 	GetUser(userID string) (*User, error)
 	ListUsers() ([]*User, error)
 }
@@ -21,11 +21,11 @@ func NewUserRepository(db *gorm.DB) (UserRepository, error) {
 	return &userRepository{db: db}, nil
 }
 
-func (ur userRepository) CreateUser(user *User) (*User, error) {
+func (ur userRepository) CreateUser(user *User) error {
 	if err := ur.db.Create(user).Error; err != nil {
-		return nil, err
+		return err
 	}
-	return user, nil
+	return nil
 }
 
 func (ur userRepository) GetUser(userID string) (*User, error) {
