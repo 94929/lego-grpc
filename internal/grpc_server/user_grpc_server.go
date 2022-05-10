@@ -15,7 +15,7 @@ type UserGrpcServer struct {
 
 func (ugs UserGrpcServer) CreateUser(
 	ctx context.Context, req *userpb.CreateUserRequest,
-) (*userpb.GetUserResponse, error) {
+) (*userpb.GetUserReply, error) {
 	var userMessage *userpb.UserMessage
 	user := repository.User{Nickname: req.Nickname}
 	ugs.UserRepository.CreateUser(&user)
@@ -24,12 +24,12 @@ func (ugs UserGrpcServer) CreateUser(
 		UserId:   userIdStr,
 		Nickname: user.Nickname,
 	}
-	return &userpb.GetUserResponse{UserMessage: userMessage}, nil
+	return &userpb.GetUserReply{UserMessage: userMessage}, nil
 }
 
 func (ugs UserGrpcServer) GetUser(
 	ctx context.Context, req *userpb.GetUserRequest,
-) (*userpb.GetUserResponse, error) {
+) (*userpb.GetUserReply, error) {
 	var userMessage *userpb.UserMessage
 	user, _ := ugs.UserRepository.GetUser(req.UserId)
 	userIdStr := strconv.FormatUint(uint64(user.ID), 10)
@@ -37,12 +37,12 @@ func (ugs UserGrpcServer) GetUser(
 		UserId:   userIdStr,
 		Nickname: user.Nickname,
 	}
-	return &userpb.GetUserResponse{UserMessage: userMessage}, nil
+	return &userpb.GetUserReply{UserMessage: userMessage}, nil
 }
 
 func (ugs UserGrpcServer) ListUsers(
 	ctx context.Context, in *userpb.ListUsersRequest,
-) (*userpb.ListUsersResponse, error) {
+) (*userpb.ListUsersReply, error) {
 	var userMessages []*userpb.UserMessage
 	users, _ := ugs.UserRepository.ListUsers()
 	for _, user := range users {
@@ -52,7 +52,7 @@ func (ugs UserGrpcServer) ListUsers(
 			Nickname: user.Nickname,
 		})
 	}
-	return &userpb.ListUsersResponse{
+	return &userpb.ListUsersReply{
 		UserMessages: userMessages,
 	}, nil
 }
